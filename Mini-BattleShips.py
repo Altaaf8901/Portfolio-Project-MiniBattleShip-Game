@@ -17,7 +17,6 @@ import random
 #returns board in a single line list
 def Create_Board():
     board = []
-
     for row in range(5):
         board.append(['O']*5)
     
@@ -49,16 +48,47 @@ def display_board(Visible_Board):
 def Place_Ship(Hidden_Board):
     ships = 0
     while ships < 3:
-        Row = random.randint(range(1,5))
-        Column = random.randint(range(1,5))
+        Row = random.randint(0,4)
+        Column = random.randint(0,4)
 
         if Hidden_Board[Row][Column] == 'O':
             Hidden_Board[Row][Column] = 'S'
             ships += 1
+
     return Hidden_Board
 
+#function will ask user for numbers between 1-5 for Rows and Columns and wont stop the function until valid numbers are given
+#Guess variable stored False inidicating invalid numbers from the beginning of the function
+#while loops set to false and will loop continously until valid numbers are given
+#Row variable will store an integer input ranging from 1-5
+#Column variable will store and integer input ranging from 1-5
+#if statement checks if number for row is in range of 1-5
+#elif statement checks if number for Column is in range of 1-5
+#else statement converts Guess to True
+#Subtracts 1 from row and column since the 5x5 boards are stored in a list starting from 0-4
+#returns valid Row and Columns numbers
+def Ask_Guess():
+    Guess = False
 
+    while Guess == False:
+        Row = int(input('Guess a number between 1-5 for row: ',))
+        Column = int(input('Guess a number between 1-5 for Column: '))
+
+        if Row < 1 or Row > 5:
+            print('Row Number not between 1-5 try again.')
+        elif Column < 1 or Column > 5:
+            print('Column Number not between 1-5 try again')
+        else:
+            Guess = True
+
+    Row -= 1
+    Column -= 1
+
+    return Row, Column
 
 Visible_Board = Create_Board()
 Hidden_Board = Create_Board()
 display_board(Visible_Board)
+Place_Ship(Hidden_Board)
+#display_board(Hidden_Board)
+Row,Column = Ask_Guess()
