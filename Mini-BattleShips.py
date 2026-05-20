@@ -37,7 +37,25 @@ def display_board(Visible_Board):
         print(str(Row_Num) + ' ' + ' '.join(row))
         Row_Num += 1
 
+#function replaces characters in Hidden_Board list with 'S' to indicate ship is on that coordinate
+#ship variable stores the count of ships placed on board
+#loops until 3 ships have been placed on board
+#Row variable stores a random integer between the ranges of 1-5
+#Column variable stores a random integer between the ranges of 1-5
+#If hidden board at index row,column equals water('O') then,
+#the string at that index will change to 'S' to indicate a ship was placed at that coordinate
+#also increases the increment of ships placed on the board by 1
+#returns the updated hidden board with ships placed
+def Place_Ship(Hidden_Board):
+    ships = 0
+    while ships < 3:
+        Row = random.randint(range(1,5))
+        Column = random.randint(range(1,5))
 
+        if Hidden_Board[Row][Column] == 'O':
+            Hidden_Board[Row][Column] = 'S'
+            ships += 1
+    return Hidden_Board
 
 
 
