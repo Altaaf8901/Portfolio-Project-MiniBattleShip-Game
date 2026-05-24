@@ -99,9 +99,11 @@ def Update_Board(Hidden_Board, Visible_Board, Guess_Row, Guess_Column):
         print('You already guessed this location')
         return 'duplicate'
     elif Hidden_Board[Guess_Row][Guess_Column] == 'S':
+        Visible_Board[Guess_Row][Guess_Column] = 'X'
         print('Hit!')
         return 'hit'
     else:
+        Visible_Board[Guess_Row][Guess_Column] = '-'
         print('Miss')
         return 'Miss'
 
@@ -131,7 +133,7 @@ def Play_Game():
         display_board(Visible_Board)
 
         print('Ships Remaining:', Ships_Remaining)
-        print('Guess Remaininh:', Guess_Remaining)
+        print('Guess Remaining:', Guess_Remaining)
 
         Row, Column = Ask_Guess()
 
@@ -147,7 +149,10 @@ def Play_Game():
 
         display_board(Visible_Board)
 
-        if Ships_Remaining == 0:
-            print('You found all the ships. YOU WIN!')
-        else:
-            print('You ran out of guesses. YOU LOSE!')
+    if Ships_Remaining == 0:
+        print('You found all the ships. YOU WIN!')
+    else:
+        print('You ran out of guesses. YOU LOSE!')
+
+
+Player1 = Play_Game()
