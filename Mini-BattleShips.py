@@ -10,6 +10,10 @@ import random
 # - player guesses
 # - hit/miss logic
 # - a win/loss game loop
+# - 'x' = HIT
+# - 'O' = Water
+# - 'S' = Ship
+# - '-' = Miss
 
 #function creates a 5 x 5 board in a list
 #creates/stores an empty list
@@ -86,9 +90,64 @@ def Ask_Guess():
 
     return Row, Column
 
-Visible_Board = Create_Board()
-Hidden_Board = Create_Board()
-display_board(Visible_Board)
-Place_Ship(Hidden_Board)
-#display_board(Hidden_Board)
-Row,Column = Ask_Guess()
+#function returns a string based on the coordinates the user has guessed;
+#uses 4 parameters Hidden_Board and Visible_Board used to compare with user guessed inputs for row and column,
+#if statement checks if visible board at guessed input of row and column from user has already been used
+#prints a string and returns 'Duplicate'
+def Update_Board(Hidden_Board, Visible_Board, Guess_Row, Guess_Column):
+    if Visible_Board[Guess_Row][Guess_Column] == 'X' or Visible_Board[Guess_Row][Guess_Column] == '-':
+        print('You already guessed this location')
+        return 'duplicate'
+    elif Hidden_Board[Guess_Row][Guess_Column] == 'S':
+        print('Hit!')
+        return 'hit'
+    else:
+        print('Miss')
+        return 'Miss'
+
+
+#runs all other functions together to make script that plays out Battleship
+#function creates 2 boards: Hidden, Visible Boards
+#function places ship on hidden board that is only seen to the dev not the player
+#creates and stores values of ships left on the board and how many guesses the player has left
+#loops until either ships remaining or guesses remaining equals 0
+#function displays visible board to show starting of the game
+#prints 2 statements that show ships and guess remaining to the user
+#creates and stores random numbers 1-5 into variables row and columns
+#another variable storing result from another function that gets the result of the user guess
+#if else statement that checks the result and updates ships and guesses remaining accordingly
+#function displays board to user again after their guess has been updated both boards accordingly
+#if else statement that prints out the win/loss statement depending on if the user made the guesses correctly or not
+def Play_Game():
+    Hidden_Board = Create_Board()
+    Visible_Board = Create_Board()
+    
+    Place_Ship(Hidden_Board)
+
+    Ships_Remaining = 3
+    Guess_Remaining = 10
+
+    while Ships_Remaining > 0 and Guess_Remaining > 0:
+        display_board(Visible_Board)
+
+        print('Ships Remaining:', Ships_Remaining)
+        print('Guess Remaininh:', Guess_Remaining)
+
+        Row, Column = Ask_Guess()
+
+        Result = Update_Board(Hidden_Board, Visible_Board, Row, Column)
+
+        if Result == 'hit':
+            Ships_Remaining -= 1
+            Guess_Remaining -= 1
+        elif Result == 'Miss':
+            Guess_Remaining -= 1
+        elif Result == 'duplicate':
+            print('Duplicate guess you did not loose your turn.')
+
+        display_board(Visible_Board)
+
+        if Ships_Remaining == 0:
+            print('You found all the ships. YOU WIN!')
+        else:
+            print('You ran out of guesses. YOU LOSE!')
